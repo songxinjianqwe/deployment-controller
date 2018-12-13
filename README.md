@@ -1,4 +1,11 @@
 # 简化版Deployment实现
+
+## 文章
+[如何从零开始编写一个CRD](https://mp.weixin.qq.com/s/z_xM8QqpRUASDM1UyMzEeA "With a Title"). 
+
+## 目的
+这是一个简化版的Deployment的实现，实现了部分Kubernetes中Deployment的功能。
+
 ## 测试用例
 - 启动后自动创建出一个MyDeployment的CRD
     - 【触发】启动应用
