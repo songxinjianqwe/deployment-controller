@@ -1,0 +1,54 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  # name中不能有中划线
+  # URL中使用的复数名称:/apis/<group>/<version>/<plural>
+  name: mydeployments.jasper.com
+spec:
+  group: jasper.com
+  version: v1beta1
+  scope: Namespaced
+  names:
+    plural: mydeployments
+    singular: mydeployment
+    kind: MyDeployment
+    shortNames:
+    - md
+  ADDITIONAL_PRINTER_COLUMNS:
+  - name: DESIRED
+    type: string
+    description: The number of desired pods
+    JSONPath: .spec.replicas
+  - name: CURRENT
+    type: integer
+    description: The number of current pods
+    JSONPath: .status.replicas
+  - name: AVAILABLE
+    type: integer
+    description: The number of avaiable pods
+    JSONPath: .status.availableReplicas
+  - name: UP-TO-DATE
+    type: integer
+    description: The number of update-to-date pods
+    JSONPath: .status.updatedReplicas
+  - name: AGE
+    type: date
+    JSONPath: .metadata.creationTimestamp
+#   subresources describes the subresources for custom resources.
+  subresources:
+    # status enables the status subresource.
+    status: {}
+#     scale:
+#       specReplicasPath: .spec.replicas
+#       statusReplicasPath: .status.replicas
+#       labelSelectorPath: .status.labelSelector
+validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          properties:
+            replicas:
+              type: integer
+              minimum: 1
+# TODO 加上pod template的validation
+# TODO 加上selector的validation

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-app
+  labels:
+    name: my-nginx-app
+spec:
+  type: NodePort      #这里代表是NodePort类型的
+  ports:
+  - port: 80          # 这里的端口和clusterIP(10.97.114.36)对应，即10.97.114.36:80,供内部访问。
+    targetPort: 80    # 端口一定要和container暴露出来的端口对应
+    protocol: TCP
+    nodePort: 32143   # 每个Node会开启，此端口供外部调用。
+  selector:
+    run: my-nginx-app
